@@ -29,17 +29,22 @@ export default function App() {
   );
 
   async function handleGithubOAuthCode(code: string) {
-    const response = await api.post("/register", {
-      code,
-    });
+    try {
+      const response = await api.post("/register", {
+        code,
+      });
+      console.log("oiiii", response);
 
-    const { token } = response.data;
+      const { token } = response.data;
 
-    console.log(token);
+      console.log(token);
 
-    await SecureStore.setItemAsync("token", token);
+      await SecureStore.setItemAsync("token", token);
 
-    router.push("/memories");
+      router.push("/memories");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
